@@ -2,8 +2,8 @@ from fastapi import Request
 from sqladmin import Admin, ModelView
 from sqladmin.authentication import AuthenticationBackend
 
+from config import ADMIN_PASSWORD, ADMIN_USERNAME
 from database.models import User
-from config import ADMIN_USERNAME, ADMIN_PASSWORD
 
 
 class AdminAuth(AuthenticationBackend):
