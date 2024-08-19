@@ -3,6 +3,7 @@ from sqladmin import Admin, ModelView
 from sqladmin.authentication import AuthenticationBackend
 
 from database.models import User
+from config import ADMIN_USERNAME, ADMIN_PASSWORD
 
 
 class AdminAuth(AuthenticationBackend):
@@ -10,7 +11,7 @@ class AdminAuth(AuthenticationBackend):
         form = await request.form()
         username, password = form["username"], form["password"]
 
-        if not (username == 'admin' and password == 'h56xW32'):
+        if not (username == ADMIN_USERNAME and password == ADMIN_PASSWORD):
             return False
 
         request.session.update(
