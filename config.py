@@ -1,3 +1,6 @@
+TEST_MODE = True
+TEST_USER_ID = 0
+
 WEBAPP_URL = ''
 BOT_TOKEN = ''
 WEBHOOK_HOST = ''

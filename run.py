@@ -2,18 +2,18 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 
-from bot import process_update, run_bot
-from bot.middlewares.webapp_user import webapp_user_middleware
+from bot import process_update, run_bot_webhook
+from middlewares.webapp_user import webapp_user_middleware
 from config import WEBHOOK_PATH
 from database.admin import init_admin
-from database.schemas import WebAppRequest
+from api.schemas import WebAppRequest
 from database.session import engine, run_database
 
 
 async def on_startup(app: FastAPI):
     init_admin(app=app, engine=engine)
     await run_database()
-    await run_bot()
+    await run_bot_webhook()
 
     yield
 
