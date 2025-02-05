@@ -1,5 +1,23 @@
-# Byte-compiled / optimized / DLL files
 __pycache__/
+.pytest_cache/
+.env/
 venv/
 database.db
-test.py
+.coverage
+node_modules
+dist
+dist-ssr
+*.local
+.localenv
+
+# Editor directories and files
+.vscode/*
+.vscode/
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

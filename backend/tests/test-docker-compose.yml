@@ -1,0 +1,29 @@
+version: "3.9"
+
+networks:
+  test:
+
+services:
+  test-postgres:
+    restart: unless-stopped
+
+    image: "postgres:16.6-alpine"
+    container_name: test-postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGPORT: ${PGPORT}
+    networks:
+      - test
+
+  redis:
+    restart: unless-stopped
+
+    image: "redis:7.4"
+    ports:
+    - "6379:6379"
+    networks:
+    - test

@@ -1,0 +1,73 @@
+networks:
+  dev:
+
+services:
+  tunnel:
+    image: yuccastream/tuna
+    command: http backend:8080 --subdomain=readit
+    environment:
+      - TUNA_TOKEN=${TUNA_TOKEN}
+    depends_on:
+      - backend
+    networks:
+      - dev
+
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf'
+    depends_on:
+      - backend
+    networks:
+      - dev
+    deploy:
+      replicas: 0
+
+  template-postgres:
+    restart: unless-stopped
+
+    image: "postgres:16.6-alpine"
+    container_name: template-postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - template-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: template
+      POSTGRES_USER: template
+      POSTGRES_PASSWORD: template
+      PGPORT: 5432
+    networks:
+      - dev
+
+  redis:
+    restart: unless-stopped
+
+    image: "redis:7.4"
+    ports:
+    - "6379:6379"
+    networks:
+    - dev
+
+  backend:
+    restart: unless-stopped
+    build:
+      context: ./backend
+    networks:
+      - dev
+    environment:
+      - ENV=${ENV:-}
+      - PYTHONUNBUFFERED=1
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+      - WEBHOOK_HOST=https://readit.ru.tuna.am
+      - WEBAPP_URL=https://readit.ru.tuna.am
+    ports:
+      - "8080:8080"
+    depends_on:
+      - template-postgres
+volumes:
+  template-data:

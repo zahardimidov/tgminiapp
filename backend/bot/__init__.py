@@ -4,16 +4,16 @@ from aiogram.enums import ParseMode
 from aiogram.types import Update
 from fastapi import Request
 
-from middlewares.register_user import RegisterUserMiddleware
-from bot.routers import base_router
-from config import BOT_TOKEN, WEBHOOK_HOST, WEBHOOK_PATH
+from .middlewares import RegisterUserMiddleware
+from bot.routers.base import router as base_router
+from config import BOT_TOKEN, WEBHOOK_URL
 
 
 async def run_bot_webhook():
     me = await bot.get_me()
     print(me.username)
 
-    await bot.set_webhook(f'{WEBHOOK_HOST}/{WEBHOOK_PATH}', drop_pending_updates=True, allowed_updates=["message", "edited_channel_post", "callback_query"])
+    await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True, allowed_updates=["message", "edited_channel_post", "callback_query"])
 
 
 async def run_bot_polling():

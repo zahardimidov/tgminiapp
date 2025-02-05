@@ -1,0 +1,6 @@
+ENGINE=postgresql+asyncpg://test:test@0.0.0.0:5432/test
+
+POSTGRES_DB=test
+POSTGRES_USER=test
+POSTGRES_PASSWORD=test
+PGPORT=5432
